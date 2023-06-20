@@ -21,7 +21,7 @@ def generate_resume(name, email, phone, experience, education, skills):
     pdf.multi_cell(0, 10, f"Skills: {skills}")
 
     # Save the PDF file
-    file_path = "/content/resume.pdf"
+    file_path = "resume.pdf"
     pdf.output(file_path)
 
     return file_path
