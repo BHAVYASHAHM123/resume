@@ -1,5 +1,5 @@
-import streamlit as st
 from fpdf import FPDF
+import streamlit as st
 
 def generate_resume(name, email, phone, experience, education, skills):
     # Define the PDF document
@@ -13,36 +13,39 @@ def generate_resume(name, email, phone, experience, education, skills):
     pdf.set_font("Arial", size=12)
 
     # Add the resume content
-    pdf.cell(0, 10, f"Name: {name}", ln=True)
-    pdf.cell(0, 10, f"Email: {email}", ln=True)
-    pdf.cell(0, 10, f"Phone: {phone}", ln=True)
-    pdf.cell(0, 10, f"Experience: {experience}", ln=True)
-    pdf.cell(0, 10, f"Education: {education}", ln=True)
-    pdf.cell(0, 10, f"Skills: {skills}", ln=True)
+    pdf.multi_cell(0, 10, f"Name: {name}")
+    pdf.multi_cell(0, 10, f"Email: {email}")
+    pdf.multi_cell(0, 10, f"Phone: {phone}")
+    pdf.multi_cell(0, 10, f"Experience: {experience}")
+    pdf.multi_cell(0, 10, f"Education: {education}")
+    pdf.multi_cell(0, 10, f"Skills: {skills}")
 
     # Save the PDF file
-    file_path = "resume.pdf"
-    pdf.output(file_path, "F")
+    file_path = "/content/resume.pdf"
+    pdf.output(file_path)
 
     return file_path
 
 # Streamlit app
-def main():
-    st.title("Resume Generator")
-    
-    # Input form
-    name = st.text_input("Name")
-    email = st.text_input("Email")
-    phone = st.text_input("Phone")
-    experience = st.text_input("Experience")
-    education = st.text_input("Education")
-    skills = st.text_input("Skills")
+st.title("Resume Generator")
 
-    # Generate and download resume
-    if st.button("Generate Resume"):
-        resume_path = generate_resume(name, email, phone, experience, education, skills)
-        st.success("Resume generated!")
-        st.download_button("Download Resume", resume_path)
+# Input fields
+name = st.text_input("Name")
+email = st.text_input("Email")
+phone = st.text_input("Phone")
+experience = st.text_input("Experience")
+education = st.text_input("Education")
+skills = st.text_input("Skills")
+
+# Generate resume button
+if st.button("Generate Resume"):
+    if name and email and phone and experience and education and skills:
+        file_path = generate_resume(name, email, phone, experience, education, skills)
+        st.success("Resume generated successfully!")
+        st.download_button("Download Resume", file_path)
+    else:
+        st.warning("Please fill in all the fields.")
+
 
 # Run the app
 if __name__ == '__main__':
